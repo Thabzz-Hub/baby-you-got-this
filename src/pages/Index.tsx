@@ -196,9 +196,9 @@ const Index = () => {
         {/* Progress Section */}
         <ProgressHype tasks={tasks} />
 
-        {/* View Toggle */}
-        <div className="flex items-center justify-between">
-          <Tabs value={activeView} onValueChange={(value) => setActiveView(value as 'list' | 'calendar')}>
+        {/* Tasks Section with View Toggle */}
+        <Tabs value={activeView} onValueChange={(value) => setActiveView(value as 'list' | 'calendar')} className="space-y-6">
+          <div className="flex items-center justify-between">
             <TabsList className="bg-card shadow-card">
               <TabsTrigger value="list" className="flex items-center gap-2">
                 <ListTodo className="h-4 w-4" />
@@ -209,74 +209,72 @@ const Index = () => {
                 Calendar View
               </TabsTrigger>
             </TabsList>
-          </Tabs>
 
-          <AddTaskForm onAddTask={handleAddTask}>
-            <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90">
-              <Plus className="h-4 w-4" />
-              Add Task
-            </Button>
-          </AddTaskForm>
-        </div>
+            <AddTaskForm onAddTask={handleAddTask}>
+              <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90">
+                <Plus className="h-4 w-4" />
+                Add Task
+              </Button>
+            </AddTaskForm>
+          </div>
+          <TabsContent value="list" className="space-y-6">
+            {Object.entries(groupedTasks).length === 0 ? (
+              <Card className="card-baby text-center py-12">
+                <div className="space-y-4">
+                  <div className="text-6xl">🎉</div>
+                  <h3 className="font-poppins font-bold text-2xl">All caught up!</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    Look at you being all productive! You've completed everything on your list. 
+                    Time to add some new goals or just enjoy this moment! 💕
+                  </p>
+                  <AddTaskForm onAddTask={handleAddTask}>
+                    <Button className="mt-4">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Your First Task
+                    </Button>
+                  </AddTaskForm>
+                </div>
+              </Card>
+            ) : (
+              Object.entries(groupedTasks).map(([category, categoryTasks]) => (
+                <div key={category} className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{categoryEmojis[category as Task['category']]}</span>
+                    <h3 className="font-poppins font-bold text-xl">
+                      {categoryLabels[category as Task['category']]}
+                    </h3>
+                    <Badge variant="secondary" className="text-xs">
+                      {categoryTasks.length}
+                    </Badge>
+                  </div>
+                  
+                  <div className="grid gap-4">
+                    {categoryTasks.map((task) => (
+                      <TaskCard
+                        key={task.id}
+                        task={task}
+                        onStatusChange={handleStatusChange}
+                        onComplete={handleTaskComplete}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
+          </TabsContent>
 
-        {/* Tasks Section */}
-        <TabsContent value="list" className="space-y-6">
-          {Object.entries(groupedTasks).length === 0 ? (
+          <TabsContent value="calendar" className="space-y-4">
             <Card className="card-baby text-center py-12">
               <div className="space-y-4">
-                <div className="text-6xl">🎉</div>
-                <h3 className="font-poppins font-bold text-2xl">All caught up!</h3>
+                <Calendar className="h-16 w-16 mx-auto text-muted-foreground" />
+                <h3 className="font-poppins font-bold text-xl">Calendar View</h3>
                 <p className="text-muted-foreground max-w-md mx-auto">
-                  Look at you being all productive! You've completed everything on your list. 
-                  Time to add some new goals or just enjoy this moment! 💕
+                  Calendar view is coming soon! For now, you can see all your tasks organized by category in the list view. 📅✨
                 </p>
-                <AddTaskForm onAddTask={handleAddTask}>
-                  <Button className="mt-4">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Your First Task
-                  </Button>
-                </AddTaskForm>
               </div>
             </Card>
-          ) : (
-            Object.entries(groupedTasks).map(([category, categoryTasks]) => (
-              <div key={category} className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{categoryEmojis[category as Task['category']]}</span>
-                  <h3 className="font-poppins font-bold text-xl">
-                    {categoryLabels[category as Task['category']]}
-                  </h3>
-                  <Badge variant="secondary" className="text-xs">
-                    {categoryTasks.length}
-                  </Badge>
-                </div>
-                
-                <div className="grid gap-4">
-                  {categoryTasks.map((task) => (
-                    <TaskCard
-                      key={task.id}
-                      task={task}
-                      onStatusChange={handleStatusChange}
-                      onComplete={handleTaskComplete}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))
-          )}
-        </TabsContent>
-
-        <TabsContent value="calendar" className="space-y-4">
-          <Card className="card-baby text-center py-12">
-            <div className="space-y-4">
-              <Calendar className="h-16 w-16 mx-auto text-muted-foreground" />
-              <h3 className="font-poppins font-bold text-xl">Calendar View</h3>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                Calendar view is coming soon! For now, you can see all your tasks organized by category in the list view. 📅✨
-              </p>
-            </div>
-          </Card>
-        </TabsContent>
+          </TabsContent>
+        </Tabs>
       </main>
 
       {/* Footer */}
