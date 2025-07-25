@@ -3,11 +3,13 @@ import { TaskCard, type Task } from '@/components/TaskCard';
 import { SuccessModal } from '@/components/SuccessModal';
 import { ProgressHype } from '@/components/ProgressHype';
 import { AddTaskForm } from '@/components/AddTaskForm';
+import { useNotifications } from '@/hooks/useNotifications';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Heart, Moon, Sun, Calendar, ListTodo, Plus } from 'lucide-react';
+import { Toaster } from '@/components/ui/toaster';
+import { Heart, Moon, Sun, Calendar, ListTodo, Plus, Bell } from 'lucide-react';
 
 // Sample motivational quotes
 const motivationalQuotes = [
@@ -21,7 +23,7 @@ const motivationalQuotes = [
   "You're writing your success story, one task at a time. 📖"
 ];
 
-// Sample initial tasks
+// Sample initial tasks with realistic dates
 const sampleTasks: Task[] = [
   {
     id: '1',
@@ -79,6 +81,10 @@ const Index = () => {
   const [currentQuote, setCurrentQuote] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeView, setActiveView] = useState<'list' | 'calendar'>('list');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
+  // Use the notification hook
+  useNotifications(tasks);
 
   useEffect(() => {
     setCurrentQuote(getRandomQuote());
@@ -88,7 +94,27 @@ const Index = () => {
     if (isDark) {
       document.documentElement.classList.add('dark');
     }
+
+    // Check notification permission status
+    if ('Notification' in window) {
+      setNotificationsEnabled(Notification.permission === 'granted');
+    }
   }, []);
+
+  const enableNotifications = async () => {
+    if ('Notification' in window) {
+      const permission = await Notification.requestPermission();
+      setNotificationsEnabled(permission === 'granted');
+      
+      if (permission === 'granted') {
+        // Show a test notification
+        new Notification('Notifications enabled! 🎉', {
+          body: 'You\'ll now get sweet reminders when tasks are due, baby! 💕',
+          icon: '/favicon.ico'
+        });
+      }
+    }
+  };
 
   const handleStatusChange = (taskId: string, newStatus: Task['status']) => {
     setTasks(prevTasks =>
@@ -163,14 +189,28 @@ const Index = () => {
               </h1>
             </div>
             
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleDarkMode}
-              className="bg-white/80 border-white/40 hover:bg-white/90"
-            >
-              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
+            <div className="flex items-center gap-2">
+              {!notificationsEnabled && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={enableNotifications}
+                  className="bg-white/80 border-white/40 hover:bg-white/90 flex items-center gap-2"
+                >
+                  <Bell className="h-4 w-4" />
+                  Enable Reminders
+                </Button>
+              )}
+              
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={toggleDarkMode}
+                className="bg-white/80 border-white/40 hover:bg-white/90"
+              >
+                {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+            </div>
           </div>
           
           <div className="text-center space-y-2">
@@ -297,6 +337,9 @@ const Index = () => {
         onClose={() => setSuccessModalOpen(false)}
         task={completedTask}
       />
+
+      {/* Add Toaster for notifications */}
+      <Toaster />
     </div>
   );
 };
