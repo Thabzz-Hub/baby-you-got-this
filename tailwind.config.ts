@@ -18,6 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'poppins': ['Poppins', 'sans-serif'],
+				'inter': ['Inter', 'sans-serif'],
+				'caveat': ['Caveat', 'cursive'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +66,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom baby tracker colors
+				baby: {
+					peach: 'hsl(var(--baby-peach))',
+					lavender: 'hsl(var(--baby-lavender))',
+					mint: 'hsl(var(--baby-mint))',
+					sun: 'hsl(var(--baby-sun))'
+				},
+				urgent: 'hsl(var(--urgent-red))',
+				warning: 'hsl(var(--warning-yellow))',
+				success: 'hsl(var(--success-green))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -70,25 +85,43 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'bounce-soft': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-8px)' }
+				},
+				'pulse-love': {
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.05)' }
+				},
+				'confetti': {
+					'0%': { transform: 'scale(0) rotate(0deg)', opacity: '0' },
+					'50%': { transform: 'scale(1.2) rotate(180deg)', opacity: '1' },
+					'100%': { transform: 'scale(1) rotate(360deg)', opacity: '1' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'bounce-soft': 'bounce-soft 2s infinite',
+				'pulse-love': 'pulse-love 2s infinite',
+				'confetti': 'confetti 0.6s ease-out',
+				'float': 'float 3s ease-in-out infinite',
+				'shimmer': 'shimmer 2s linear infinite'
 			}
 		}
 	},

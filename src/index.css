@@ -2,39 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* You Got This Baby - Design System
+Sweet, supportive, kawaii-modern aesthetic with soft pastels
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Soft pastel background - blush pink */
+    --background: 339 100% 97%;
+    --foreground: 342 20% 25%;
 
+    /* Pure white cards with soft shadows */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 342 20% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 342 20% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Rose red accent - main brand color */
+    --primary: 347 85% 70%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft mint green for secondary actions */
+    --secondary: 174 44% 85%;
+    --secondary-foreground: 174 30% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Light blush for muted elements */
+    --muted: 339 50% 95%;
+    --muted-foreground: 342 15% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Soft aqua for accents */
+    --accent: 183 76% 80%;
+    --accent-foreground: 183 40% 25%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Warm coral for urgent/destructive actions */
+    --destructive: 11 85% 70%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Soft borders and inputs */
+    --border: 339 30% 90%;
+    --input: 339 30% 92%;
+    --ring: 347 85% 70%;
+
+    /* Custom colors for the baby tracker */
+    --baby-peach: 25 100% 95%;
+    --baby-lavender: 260 60% 92%;
+    --baby-mint: 174 60% 90%;
+    --baby-sun: 45 100% 70%;
+    --urgent-red: 0 85% 75%;
+    --warning-yellow: 45 90% 70%;
+    --success-green: 140 60% 75%;
+
+    /* Gradients */
+    --gradient-baby: linear-gradient(135deg, hsl(var(--baby-peach)), hsl(var(--baby-lavender)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--baby-mint)), hsl(var(--success-green)));
+    --gradient-love: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--baby-sun)));
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.15);
+    --shadow-card: 0 2px 8px -2px hsl(var(--primary) / 0.08);
+    --shadow-float: 0 8px 25px -8px hsl(var(--primary) / 0.25);
 
     --radius: 0.5rem;
 
@@ -56,33 +84,53 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Cozy dark mode with warm undertones */
+    --background: 342 15% 8%;
+    --foreground: 339 20% 90%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 342 12% 12%;
+    --card-foreground: 339 20% 90%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 342 12% 12%;
+    --popover-foreground: 339 20% 90%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 347 75% 65%;
+    --primary-foreground: 342 15% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 174 25% 20%;
+    --secondary-foreground: 174 30% 85%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 342 10% 15%;
+    --muted-foreground: 342 10% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 183 50% 30%;
+    --accent-foreground: 183 40% 85%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 11 75% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 342 15% 18%;
+    --input: 342 15% 18%;
+    --ring: 347 75% 65%;
+
+    /* Dark mode custom colors */
+    --baby-peach: 25 30% 15%;
+    --baby-lavender: 260 25% 18%;
+    --baby-mint: 174 25% 18%;
+    --baby-sun: 45 50% 50%;
+    --urgent-red: 0 70% 60%;
+    --warning-yellow: 45 80% 60%;
+    --success-green: 140 50% 60%;
+
+    /* Dark gradients */
+    --gradient-baby: linear-gradient(135deg, hsl(var(--baby-peach)), hsl(var(--baby-lavender)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--baby-mint)), hsl(var(--success-green)));
+    --gradient-love: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--baby-sun)));
+
+    /* Dark shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.2);
+    --shadow-float: 0 8px 25px -8px hsl(0 0% 0% / 0.4);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +148,87 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+  }
+
+  /* Beautiful scrollbars */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-muted rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full hover:bg-primary/50;
+  }
+}
+
+@layer components {
+  /* Custom component classes */
+  .card-baby {
+    @apply bg-card rounded-2xl p-6 shadow-[var(--shadow-card)] border border-border/50;
+  }
+
+  .gradient-baby {
+    background: var(--gradient-baby);
+  }
+
+  .gradient-love {
+    background: var(--gradient-love);
+  }
+
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-float {
+    box-shadow: var(--shadow-float);
+  }
+
+  /* Playful animations */
+  .animate-bounce-soft {
+    animation: bounce-soft 2s infinite;
+  }
+
+  .animate-pulse-love {
+    animation: pulse-love 2s infinite;
+  }
+
+  .animate-confetti {
+    animation: confetti 0.6s ease-out;
+  }
+}
+
+@layer utilities {
+  /* Custom keyframes for baby-themed animations */
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes pulse-love {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @keyframes confetti {
+    0% { transform: scale(0) rotate(0deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+    100% { transform: scale(1) rotate(360deg); opacity: 1; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 }
