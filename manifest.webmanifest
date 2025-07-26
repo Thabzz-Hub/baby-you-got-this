@@ -1,0 +1,1 @@
+{"name":"My Awesome App","short_name":"MyApp","description":"My Vite + React + Tailwind App","start_url":"/baby-you-got-this/","display":"standalone","background_color":"#ffffff","theme_color":"#ffffff","lang":"en","scope":"/baby-you-got-this/","icons":[{"src":"pwa-192x192.png","sizes":"192x192","type":"image/png"},{"src":"pwa-512x512.png","sizes":"512x512","type":"image/png"}]}
