@@ -3,13 +3,14 @@ import { TaskCard, type Task } from '@/components/TaskCard';
 import { SuccessModal } from '@/components/SuccessModal';
 import { ProgressHype } from '@/components/ProgressHype';
 import { AddTaskForm } from '@/components/AddTaskForm';
+import Calendar from '@/components/Calendar';
 import { useNotifications } from '@/hooks/useNotifications';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toaster } from '@/components/ui/toaster';
-import { Heart, Moon, Sun, Calendar, ListTodo, Plus, Bell } from 'lucide-react';
+import { Heart, Moon, Sun, Calendar as CalendarIcon, ListTodo, Plus, Bell } from 'lucide-react';
 
 // Sample motivational quotes
 const motivationalQuotes = [
@@ -23,7 +24,7 @@ const motivationalQuotes = [
   "You're writing your success story, one task at a time. 📖"
 ];
 
-// Sample initial tasks with realistic dates
+// Sample initial tasks with realistic dates (kept for reference but not used)
 const sampleTasks: Task[] = [
   {
     id: '1',
@@ -75,7 +76,8 @@ const getRandomQuote = () => {
 };
 
 const Index = () => {
-  const [tasks, setTasks] = useState<Task[]>(sampleTasks);
+  // Changed from sampleTasks to empty array []
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [completedTask, setCompletedTask] = useState<Task | null>(null);
   const [currentQuote, setCurrentQuote] = useState('');
@@ -180,7 +182,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="gradient-baby border-b border-border/20">
-        <div className="container max-w-4xl mx-auto px-4 py-8">
+        <div className="container max-w-6xl mx-auto px-4 py-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <Heart className="h-8 w-8 text-primary animate-pulse-love" />
@@ -232,7 +234,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container max-w-4xl mx-auto px-4 py-8 space-y-8">
+      <main className="container max-w-6xl mx-auto px-4 py-8 space-y-8">
         {/* Progress Section */}
         <ProgressHype tasks={tasks} />
 
@@ -245,7 +247,7 @@ const Index = () => {
                 List View
               </TabsTrigger>
               <TabsTrigger value="calendar" className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
+                <CalendarIcon className="h-4 w-4" />
                 Calendar View
               </TabsTrigger>
             </TabsList>
@@ -257,15 +259,16 @@ const Index = () => {
               </Button>
             </AddTaskForm>
           </div>
+          
           <TabsContent value="list" className="space-y-6">
             {Object.entries(groupedTasks).length === 0 ? (
               <Card className="card-baby text-center py-12">
                 <div className="space-y-4">
                   <div className="text-6xl">🎉</div>
-                  <h3 className="font-poppins font-bold text-2xl">All caught up!</h3>
+                  <h3 className="font-poppins font-bold text-2xl">Ready to start your journey!</h3>
                   <p className="text-muted-foreground max-w-md mx-auto">
-                    Look at you being all productive! You've completed everything on your list. 
-                    Time to add some new goals or just enjoy this moment! 💕
+                    Your task list is empty and ready for action! Add your first task and let's 
+                    start building something amazing together! 💕
                   </p>
                   <AddTaskForm onAddTask={handleAddTask}>
                     <Button className="mt-4">
@@ -304,22 +307,36 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="calendar" className="space-y-4">
-            <Card className="card-baby text-center py-12">
-              <div className="space-y-4">
-                <Calendar className="h-16 w-16 mx-auto text-muted-foreground" />
-                <h3 className="font-poppins font-bold text-xl">Calendar View</h3>
-                <p className="text-muted-foreground max-w-md mx-auto">
-                  Calendar view is coming soon! For now, you can see all your tasks organized by category in the list view. 📅✨
-                </p>
-              </div>
-            </Card>
+            {tasks.length === 0 ? (
+              <Card className="card-baby text-center py-12">
+                <div className="space-y-4">
+                  <CalendarIcon className="h-16 w-16 mx-auto text-muted-foreground" />
+                  <h3 className="font-poppins font-bold text-2xl">Your Calendar Awaits!</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    Add some tasks with due dates to see them beautifully organized in your calendar view! 📅✨
+                  </p>
+                  <AddTaskForm onAddTask={handleAddTask}>
+                    <Button className="mt-4">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Your First Task
+                    </Button>
+                  </AddTaskForm>
+                </div>
+              </Card>
+            ) : (
+              <Calendar
+                tasks={tasks}
+                onStatusChange={handleStatusChange}
+                onComplete={handleTaskComplete}
+              />
+            )}
           </TabsContent>
         </Tabs>
       </main>
 
       {/* Footer */}
       <footer className="border-t border-border/20 bg-muted/30 mt-16">
-        <div className="container max-w-4xl mx-auto px-4 py-8 text-center">
+        <div className="container max-w-6xl mx-auto px-4 py-8 text-center">
           <p className="font-caveat text-lg text-muted-foreground flex items-center justify-center gap-2">
             <Heart className="h-5 w-5 text-primary animate-pulse-love" />
             No matter how many tasks you finish, I'm always your biggest fan
