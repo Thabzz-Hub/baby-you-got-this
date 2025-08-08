@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/use-toast';
 import { Heart, Moon, Sun, Calendar as CalendarIcon, ListTodo, Plus, Bell } from 'lucide-react';
 
 // Sample motivational quotes
@@ -84,6 +85,8 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeView, setActiveView] = useState<'list' | 'calendar'>('list');
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  
+  const { toast } = useToast();
 
   // Use the notification hook
   useNotifications(tasks);
@@ -137,6 +140,28 @@ const Index = () => {
       id: Date.now().toString()
     };
     setTasks(prevTasks => [...prevTasks, newTask]);
+    
+    // Show success toast
+    toast({
+      title: "Task Added! 🎉",
+      description: `"${newTask.title}" has been added to your list. You've got this, baby!`,
+      duration: 3000,
+    });
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    const taskToDelete = tasks.find(task => task.id === taskId);
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+    
+    // Show deletion toast
+    if (taskToDelete) {
+      toast({
+        title: "Task Deleted 🗑️",
+        description: `"${taskToDelete.title}" has been removed from your list.`,
+        duration: 3000,
+        variant: "destructive"
+      });
+    }
   };
 
   const toggleDarkMode = () => {
@@ -298,6 +323,7 @@ const Index = () => {
                         task={task}
                         onStatusChange={handleStatusChange}
                         onComplete={handleTaskComplete}
+                        onDelete={handleDeleteTask}
                       />
                     ))}
                   </div>
@@ -328,6 +354,7 @@ const Index = () => {
                 tasks={tasks}
                 onStatusChange={handleStatusChange}
                 onComplete={handleTaskComplete}
+                onDelete={handleDeleteTask}
               />
             )}
           </TabsContent>

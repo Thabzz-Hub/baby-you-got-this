@@ -9,9 +9,10 @@ interface CalendarProps {
   tasks: Task[];
   onStatusChange: (taskId: string, newStatus: Task['status']) => void;
   onComplete: (task: Task) => void;
+  onDelete: (taskId: string) => void;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ tasks, onStatusChange, onComplete }) => {
+const Calendar: React.FC<CalendarProps> = ({ tasks, onStatusChange, onComplete, onDelete }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // Get the first day of the month and number of days
@@ -102,7 +103,15 @@ const Calendar: React.FC<CalendarProps> = ({ tasks, onStatusChange, onComplete }
     done: 'bg-green-100 text-green-700'
   };
 
-  const handleTaskClick = (task: Task) => {
+  const handleTaskClick = (task: Task, event: React.MouseEvent) => {
+    // Right click for delete
+    if (event.button === 2 || event.ctrlKey || event.metaKey) {
+      event.preventDefault();
+      onDelete(task.id);
+      return;
+    }
+    
+    // Left click for status progression
     if (task.status === 'todo') {
       onStatusChange(task.id, 'inprogress');
     } else if (task.status === 'inprogress') {
@@ -205,11 +214,15 @@ const Calendar: React.FC<CalendarProps> = ({ tasks, onStatusChange, onComplete }
                   {dayTasks.slice(0, 2).map((task) => (
                     <div
                       key={task.id}
-                      onClick={() => handleTaskClick(task)}
+                      onClick={(e) => handleTaskClick(task, e)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        onDelete(task.id);
+                      }}
                       className={`px-1 py-0.5 rounded text-xs cursor-pointer hover:opacity-80 transition-opacity border ${
                         categoryColors[task.category]
-                      } ${statusColors[task.status]}`}
-                      title={`${task.title} - ${task.description}`}
+                      } ${statusColors[task.status]} group relative`}
+                      title={`${task.title} - ${task.description}\n\nLeft click: Progress status\nRight click or Ctrl+click: Delete`}
                     >
                       <div className="flex items-center gap-1">
                         <span className="text-xs">
